@@ -4,8 +4,9 @@ import './ExpenseForm.css';
 
 const ExpenseForm = (props) => {
   const [enteredTitle, setEnteredTitle] = useState('');
-  const [enteredAmount, setEnteredAmount] = useState('');
+  const [enteredAmount, setEnteredAmount] = useState(0);
   const [enteredDate, setEnteredDate] = useState('');
+  const [formIsVisible, setFormIsVisible] = useState(false);
 
   // const [userInput, setUserInput] = useState({
   //   enteredTitle: '',
@@ -45,7 +46,7 @@ const ExpenseForm = (props) => {
 
     const expenseData = {
       title: enteredTitle,
-      amount: enteredAmount,
+      amount: +enteredAmount,
       date: new Date(enteredDate),
     };
 
@@ -53,7 +54,16 @@ const ExpenseForm = (props) => {
     setEnteredTitle('');
     setEnteredAmount('');
     setEnteredDate('');
+    formToggleHandler();
   };
+
+  const formToggleHandler = () => {
+    setFormIsVisible(!formIsVisible);
+  }
+
+  if (!formIsVisible) {
+    return <div><button type='button' onClick={formToggleHandler}>Add New Expense</button></div>
+  }
 
   return (
     <form onSubmit={submitHandler}>
@@ -72,6 +82,7 @@ const ExpenseForm = (props) => {
         </div>
       </div>
       <div className='new-expense__actions'>
+        <button type='button' onClick={formToggleHandler}>Cancel</button>
         <button type='submit'>Add Expense</button>
       </div>
     </form>
